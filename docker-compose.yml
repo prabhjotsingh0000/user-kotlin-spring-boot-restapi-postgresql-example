@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  backend:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/mydatabase
+      - SPRING_DATASOURCE_USERNAME=myusername
+      - SPRING_DATASOURCE_PASSWORD=mypassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - myapp-network
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: myusername
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - myapp-network
+networks:
+  myapp-network:
+
+volumes:
+  postgres-data:
