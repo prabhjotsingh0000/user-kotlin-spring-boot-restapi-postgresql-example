@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Miscellaneous ###
+.DS_Store
